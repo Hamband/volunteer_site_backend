@@ -4,5 +4,5 @@ build:
 deploy:
 	docker stack deploy -c docker-compose.yml hamband_volunteer_api
 
-deploy:
+rm:
 	docker stack rm hamband_volunteer_api
