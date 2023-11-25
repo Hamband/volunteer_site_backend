@@ -1,5 +1,5 @@
 from typing import List, Optional
-from sqlalchemy import ForeignKey, DateTime, func
+from sqlalchemy import ForeignKey, DateTime, func, String
 from sqlalchemy.orm import DeclarativeBase, relationship
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
@@ -16,8 +16,8 @@ class Person(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     degrees: Mapped[List["Degree"]] = relationship(cascade="all, delete-orphan")
-    first_name: Mapped[str]
-    last_name: Mapped[str]
+    first_name: Mapped[str] = mapped_column(String(128))
+    last_name: Mapped[str] = mapped_column(String(128))
     contacts: Mapped[List["Contact"]] = relationship(cascade="all, delete-orphan")
     fields: Mapped[List["Field"]] = relationship(cascade="all, delete-orphan")
     last_completed_degree: Mapped[Optional[DegreeType]]
@@ -31,10 +31,10 @@ class Degree(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     person_id: Mapped[int] = mapped_column(ForeignKey("persons.id"))
     type: Mapped[DegreeType]
-    uni: Mapped[str]
+    uni: Mapped[str] = mapped_column(String(128))
     start_year: Mapped[int]
     end_year: Mapped[int]
-    major: Mapped[str]
+    major: Mapped[str] = mapped_column(String(128))
 
 
 class Contact(Base):
@@ -42,8 +42,8 @@ class Contact(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     person_id: Mapped[int] = mapped_column(ForeignKey("persons.id"))
-    type: Mapped[str]
-    address: Mapped[str]
+    type: Mapped[str] = mapped_column(String(128))
+    address: Mapped[str] = mapped_column(String(256))
 
 
 class Field(Base):
@@ -51,4 +51,4 @@ class Field(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     person_id: Mapped[int] = mapped_column(ForeignKey("persons.id"))
-    name: Mapped[str]
+    name: Mapped[str] = mapped_column(String(128))
