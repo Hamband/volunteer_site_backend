@@ -28,7 +28,7 @@ services:
     deploy:
       labels:
         - "traefik.enable=true"
-        - "traefik.http.routers.volunteer-api.rule=Host(`hamband.math.sharif.edu`) &&  && PathPrefix(`/volunteer/api`)"
+        - "traefik.http.routers.volunteer-api.rule=Host(`hamband.math.sharif.edu`) && PathPrefix(`/volunteer/api`)"
         - "traefik.http.routers.volunteer-api.entrypoints=web-secure"
         - "traefik.http.routers.volunteer-api.tls=true"
         - "traefik.http.routers.volunteer-api.tls.certresolver=myresolver"
