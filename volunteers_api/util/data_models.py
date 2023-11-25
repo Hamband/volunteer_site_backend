@@ -44,8 +44,8 @@ class NewEntryRequestBodyContact(BaseModel):
 class NewEntryRequestBody(BaseModel):
     first_name: str
     last_name: str
-    last_completed_degree: Optional[DegreeType]
-    current_degree: Optional[DegreeType]
+    last_completed_degree: DegreeType | None
+    current_degree: DegreeType | None
     fields: List[str]
     degrees: List[NewEntryRequestBodyDegree]
     contacts: List[NewEntryRequestBodyContact]
@@ -56,8 +56,12 @@ class NewEntryRequestBody(BaseModel):
             raise ValueError(i18n.get("first_name_invalid"))
         if len(self.last_name) == 0:
             raise ValueError(i18n.get("last_name_invalid"))
-        if len(self.fields) == 0:
-            raise ValueError(i18n.get("fields_empty"))
         if len(self.contacts) == 0:
             raise ValueError(i18n.get("contacts_empty"))
+        has_email = False
+        for c in self.contacts:
+            if c.type == "email":
+                has_email = True
+        if not has_email:
+            raise ValueError(i18n.get("contacts_no_email"))
         return self
