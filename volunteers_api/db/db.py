@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
-from .. import config
-from . import tables
+from volunteers_api import config
+from volunteers_api.db import tables
 
 engine = create_engine(config.db_uri)
 tables.Base.metadata.create_all(engine)

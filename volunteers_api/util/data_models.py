@@ -4,7 +4,7 @@ from pydantic import BaseModel, model_validator, ConfigDict
 
 from volunteers_api.util.enums import DegreeType
 
-from .. import i18n
+from volunteers_api import i18n
 
 
 class NewEntryRequestBodyDegree(BaseModel):
