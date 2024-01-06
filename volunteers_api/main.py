@@ -117,7 +117,9 @@ async def fields_completion(prefix: str = "", num: int | None = None, api_key: A
         r = session.scalars(stmt).all()
         if len(r) > 0:
             return r
-    return config.completion_defaults["fields"]
+    if prefix == "":
+        return config.completion_defaults["fields"]
+    return []
 
 
 @app.get(f"{path_prefix}/get_completions/degrees/uni")
@@ -133,7 +135,9 @@ async def uni_completion(prefix: str = "", num: int | None = None, api_key: APIK
         r = session.scalars(stmt).all()
         if len(r) > 0:
             return r
-    return config.completion_defaults["degrees/uni"]
+    if prefix == "":
+        return config.completion_defaults["degrees/uni"]
+    return []
 
 
 @app.get(f"{path_prefix}/get_completions/degrees/major")
@@ -149,7 +153,9 @@ async def major_completion(prefix: str = "", num: int | None = None, api_key: AP
         r = session.scalars(stmt).all()
         if len(r) > 0:
             return r
-    return config.completion_defaults["degrees/major"]
+    if prefix == "":
+        return config.completion_defaults["degrees/major"]
+    return []
 
 
 @app.get(f"{path_prefix}/get_completions/contacts/type")
@@ -165,4 +171,6 @@ async def contact_type_completion(prefix: str = "", num: int | None = None, api_
         r = session.scalars(stmt).all()
         if len(r) > 0:
             return r
-    return config.completion_defaults["contacts/type"]
+    if prefix == "":
+        return config.completion_defaults["contacts/type"]
+    return []
