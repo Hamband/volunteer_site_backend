@@ -21,7 +21,7 @@ services:
     volumes:
       - ./sqlite:/sqlite
     environment:
-      - DB=sqlite:///sqlite/main.db
+      - DB=sqlite:////sqlite/main.db
       - PATH_PREFIX=/volunteer/api/v1
       - API_KEYS=
       - SHOW_DOCS=1
