@@ -15,3 +15,10 @@ A 200 response code will be returned only upon success.
 
 A 422 code will be returned if the request data is invalid, and additional info will be available in the response body, according to PyDantic docs.
 """
+
+completion_defaults = {
+    "contacts/type": ["email", "phone", "telegram"],
+    "degrees/major": ["ریاضی", "علوم کامپیوتر", "مهندسی کامپیوتر", "فیزیک", "مهندسی برق"],
+    "degrees/uni": ["دانشگاه صنعتی شریف", "دانشگاه تهران", "دانشگاه صنعتی امیرکبیر", "دانشگاه شهید بهشتی", "پژوهشگاه دانش‌های بنیادی", "دانشگاه صنعتی اصفهان", "دانشگاه شیراز"],
+    "fields": ["احتمال", "جبر", "آنالیز", "منطق", "سیستم‌های دینامیکی", "ترکیبیات", "الگوریتم", "نظریه محاسبه", "رمزنگاری", "نظریه اطلاعات"]
+}

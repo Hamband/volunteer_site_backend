@@ -113,8 +113,11 @@ async def fields_completion(prefix: str = "", num: int | None = None, api_key: A
     - **num**: limit returned data to num entries. should be used to avoid the whole list being returned. a good value is 10.
     """
     with Session(engine) as session:
-        stmt = select(Field.name).where(Field.name.like(f"{prefix}%")).limit(num)
-        return session.scalars(stmt).all()
+        stmt = select(Field.name).where(Field.name.like(f"{prefix}%")).distinct().limit(num)
+        r = session.scalars(stmt).all()
+        if len(r) > 0:
+            return r
+    return config.completion_defaults["fields"]
 
 
 @app.get(f"{path_prefix}/get_completions/degrees/uni")
@@ -126,8 +129,11 @@ async def uni_completion(prefix: str = "", num: int | None = None, api_key: APIK
     - **num**: limit returned data to num entries. should be used to avoid the whole list being returned. a good value is 10.
     """
     with Session(engine) as session:
-        stmt = select(Degree.uni).where(Degree.uni.like(f"{prefix}%")).limit(num)
-        return session.scalars(stmt).all()
+        stmt = select(Degree.uni).where(Degree.uni.like(f"{prefix}%")).distinct().limit(num)
+        r = session.scalars(stmt).all()
+        if len(r) > 0:
+            return r
+    return config.completion_defaults["degrees/uni"]
 
 
 @app.get(f"{path_prefix}/get_completions/degrees/major")
@@ -139,8 +145,11 @@ async def major_completion(prefix: str = "", num: int | None = None, api_key: AP
     - **num**: limit returned data to num entries. should be used to avoid the whole list being returned. a good value is 10.
     """
     with Session(engine) as session:
-        stmt = select(Degree.major).where(Degree.major.like(f"{prefix}%")).limit(num)
-        return session.scalars(stmt).all()
+        stmt = select(Degree.major).where(Degree.major.like(f"{prefix}%")).distinct().limit(num)
+        r = session.scalars(stmt).all()
+        if len(r) > 0:
+            return r
+    return config.completion_defaults["degrees/major"]
 
 
 @app.get(f"{path_prefix}/get_completions/contacts/type")
@@ -152,5 +161,8 @@ async def contact_type_completion(prefix: str = "", num: int | None = None, api_
     - **num**: limit returned data to num entries. should be used to avoid the whole list being returned. a good value is 10.
     """
     with Session(engine) as session:
-        stmt = select(Contact.type).where(Contact.type.like(f"{prefix}%")).limit(num)
-        return session.scalars(stmt).all()
+        stmt = select(Contact.type).where(Contact.type.like(f"{prefix}%")).distinct().limit(num)
+        r = session.scalars(stmt).all()
+        if len(r) > 0:
+            return r
+    return config.completion_defaults["contacts/type"]
