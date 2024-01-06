@@ -19,7 +19,7 @@ services:
     networks:
       - traefik-net
     volumes:
-      ./sqlite:/sqlite
+      - ./sqlite:/sqlite
     environment:
       - DB=sqlite:///sqlite/main.db
       - PATH_PREFIX=/volunteer/api/v1
