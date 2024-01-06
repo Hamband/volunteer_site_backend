@@ -1,27 +1,10 @@
 version: '3.9'
 
 networks:
-  overlay:
   traefik-net:
     external: true
 
 services:
-  mariadb:
-    image: docker.repos.balad.ir/mariadb:10.9.5
-    networks:
-      - overlay
-    environment:
-      - MYSQL_ROOT_PASSWORD=rootpassword
-      - MYSQL_USER=user
-      - MYSQL_PASSWORD=password
-      - MYSQL_DATABASE=db
-    command: --max-connections=1000 --innodb_log_file_size=496M --max_allowed_packet=128M
-    volumes:
-      - ./db:/var/lib/mysql
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      timeout: 20s
-      retries: 10
 
   apiserver:
     image: hamband_volunteer_api
@@ -35,12 +18,10 @@ services:
         - "traefik.http.services.to-volunteer-api.loadbalancer.server.port=80"
     networks:
       - traefik-net
-      - overlay
-    depends_on:
-      mariadb:
-        condition: service_healthy
+    volumes:
+      ./sqlite:/sqlite
     environment:
-      - DB=mysql+pymysql://user:password@mariadb/db
+      - DB=sqlite:///sqlite/main.db
       - PATH_PREFIX=/volunteer/api/v1
       - API_KEYS=
       - SHOW_DOCS=1
