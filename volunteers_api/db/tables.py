@@ -52,3 +52,10 @@ class Field(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     person_id: Mapped[int] = mapped_column(ForeignKey("persons.id"))
     name: Mapped[str] = mapped_column(String(128))
+
+
+class Admin(Base):
+    __tablename__ = "admins"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    username: Mapped[str] = mapped_column(String(128))
+    password_hash: Mapped[str] = mapped_column(String(128))
