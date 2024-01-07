@@ -263,6 +263,7 @@ async def new_entry(data: NewEntryRequestBody, edit_key: str = "", api_key: APIK
             edit_key=edit_key
         )
         session.delete(old)
+        session.commit()
         session.add(new)
         session.commit()
     return {
