@@ -8,7 +8,7 @@ from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
 
 from volunteers_api import i18n, config
 from volunteers_api.db.db import engine
-from volunteers_api.db.tables import Person, Field, Degree, Contact
+from volunteers_api.db.tables import Person, Field, Degree, Contact, Misc
 from volunteers_api.util.data_models import NewEntryRequestBody
 
 path_prefix = config.path_prefix
@@ -70,6 +70,7 @@ async def new_entry(data: NewEntryRequestBody, api_key: APIKey = Depends(get_api
 
     Upon success, `{"status": "new_ok"}` will be returned.
     """
+    key = ""
     with Session(engine) as session:
         person = Person(
             first_name=data.first_name,
@@ -88,11 +89,15 @@ async def new_entry(data: NewEntryRequestBody, api_key: APIKey = Depends(get_api
                 type=i.type,
                 address=i.address
             ) for i in data.contacts],
-            misc=data.misc
+            misc=Misc(content=data.misc)
         )
         session.add(person)
         session.commit()
-    return {"status": i18n.get("new_ok")}
+        key = person.edit_key
+    return {
+        "status": "new_ok",
+        "edit_key": key
+    }
 
 
 @app.post(f"{path_prefix}/validate")

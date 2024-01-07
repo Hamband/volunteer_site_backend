@@ -4,6 +4,7 @@ from sqlalchemy.orm import DeclarativeBase, relationship
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
 
+from volunteers_api.util.edit_key_tools import generate as generate_edit_key
 from volunteers_api.util.enums import DegreeType
 
 
@@ -24,6 +25,7 @@ class Person(Base):
     current_degree: Mapped[Optional[DegreeType]]
     submission_time: Mapped[DateTime] = mapped_column(DateTime, server_default=func.now())
     misc: Mapped["Misc"] = relationship(cascade="all, delete-orphan")
+    edit_key: Mapped[str] = mapped_column(String(64), default=generate_edit_key)
 
 
 class Degree(Base):
@@ -59,7 +61,7 @@ class Misc(Base):
     __tablename__ = "misc_inputs"
     id: Mapped[int] = mapped_column(primary_key=True)
     person_id: Mapped[int] = mapped_column(ForeignKey("persons.id"))
-    name: Mapped[str] = mapped_column(String(4096))
+    content: Mapped[str] = mapped_column(String(4096), default="")
 
 
 class Admin(Base):
