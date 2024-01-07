@@ -51,6 +51,7 @@ async def new_entry(data: NewEntryRequestBody, api_key: APIKey = Depends(get_api
     - **fields**: list of mathematics and computer science fields the person works in / is interested in. can be empty.
     - **degrees**: list of `degree` objects. can be empty.
     - **contacts**: list of `contact` objects. can not be empty or you will get error contacts_empty. also must have at least an entry with `type == "email"` or you will get error contacts_no_email.
+    - **misc**: any other info. optional. length must be less than 1024.
 
     Fields of `degree` object:
 
@@ -86,7 +87,8 @@ async def new_entry(data: NewEntryRequestBody, api_key: APIKey = Depends(get_api
             contacts=[Contact(
                 type=i.type,
                 address=i.address
-            ) for i in data.contacts]
+            ) for i in data.contacts],
+            misc=data.misc
         )
         session.add(person)
         session.commit()

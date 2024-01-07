@@ -22,7 +22,7 @@ services:
       - ./sqlite:/sqlite
     environment:
       - DB=sqlite:////sqlite/main.db
-      - PATH_PREFIX=/volunteer/api/v1
+      - PATH_PREFIX=/volunteer/api/v2
       - API_KEYS=
       - SHOW_DOCS=1
       - NO_HTTP=1

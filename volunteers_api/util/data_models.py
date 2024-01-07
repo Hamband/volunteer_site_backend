@@ -49,6 +49,7 @@ class NewEntryRequestBody(BaseModel):
     fields: List[str]
     degrees: List[NewEntryRequestBodyDegree]
     contacts: List[NewEntryRequestBodyContact]
+    misc: str = ""
 
     @model_validator(mode="after")
     def validate(self):
@@ -58,6 +59,9 @@ class NewEntryRequestBody(BaseModel):
             raise ValueError(i18n.get("last_name_invalid"))
         if len(self.contacts) == 0:
             raise ValueError(i18n.get("contacts_empty"))
+        if len(self.misc) > 2048:
+            raise ValueError(i18n.get("misc_too_long"))
+
         has_email = False
         for c in self.contacts:
             if c.type == "email":

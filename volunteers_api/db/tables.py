@@ -23,6 +23,7 @@ class Person(Base):
     last_completed_degree: Mapped[Optional[DegreeType]]
     current_degree: Mapped[Optional[DegreeType]]
     submission_time: Mapped[DateTime] = mapped_column(DateTime, server_default=func.now())
+    misc: Mapped["Misc"] = relationship(cascade="all, delete-orphan")
 
 
 class Degree(Base):
@@ -52,6 +53,13 @@ class Field(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     person_id: Mapped[int] = mapped_column(ForeignKey("persons.id"))
     name: Mapped[str] = mapped_column(String(128))
+
+
+class Misc(Base):
+    __tablename__ = "misc_inputs"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    person_id: Mapped[int] = mapped_column(ForeignKey("persons.id"))
+    name: Mapped[str] = mapped_column(String(4096))
 
 
 class Admin(Base):
