@@ -268,3 +268,25 @@ async def new_entry(data: NewEntryRequestBody, edit_key: str = "", api_key: APIK
     return {
         "status": "edit_ok"
     }
+
+
+@app.delete(f"{path_prefix}/delete", status_code=200)
+async def new_entry(edit_key: str = "", api_key: APIKey = Depends(get_api_key)):
+    """
+    Delete a record.
+    A query parameter `edit_key` with the editing key is required.
+    Upon success, `{"status": "delete_ok"}` will be returned.
+    """
+    with Session(engine) as session:
+        stmt = (
+            select(Person)
+            .where(Person.edit_key == edit_key)
+        )
+        old = session.scalar(stmt)
+        if old is None:
+            return {"status": "error", "msg": "edit_key_invalid"}
+        session.delete(old)
+        session.commit()
+    return {
+        "status": "delete_ok"
+    }
