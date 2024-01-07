@@ -25,7 +25,7 @@ class Person(Base):
     current_degree: Mapped[Optional[DegreeType]]
     submission_time: Mapped[DateTime] = mapped_column(DateTime, server_default=func.now())
     misc: Mapped["Misc"] = relationship(cascade="all, delete-orphan")
-    edit_key: Mapped[str] = mapped_column(String(64), default=generate_edit_key)
+    edit_key: Mapped[str] = mapped_column(String(64), default=generate_edit_key, unique=True)
 
 
 class Degree(Base):
